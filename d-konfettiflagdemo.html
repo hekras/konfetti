@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Konfetti flags</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            background: rgb(0, 0, 0);
+            border: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas></canvas>
+    <script>
+        var statemachine = 0;
+        var tick = 0;
+        const dtick = 0.1;
+        var star = [];
+        var flag = {};
+
+
+        var imgArray = Array();
+        imgArray[0] = new Image();
+        imgArray[0].src = "./images/flags/afghanistan-flag-medium.png";
+        imgArray[1] = new Image();
+        imgArray[1].src = "./images/flags/albania-flag-medium.png";
+        imgArray[2] = new Image();
+        imgArray[2].src = "./images/flags/algeria-flag-medium.png";
+        imgArray[3] = new Image();
+        imgArray[3].src = "./images/flags/andorra-flag-medium.png";
+        imgArray[4] = new Image();
+        imgArray[4].src = "./images/flags/angola-flag-medium.png";
+        imgArray[5] = new Image();
+        imgArray[5].src = "./images/flags/antigua-and-barbuda-flag-medium.png";
+        imgArray[6] = new Image();
+        imgArray[6].src = "./images/flags/argentina-flag-medium.png";
+        imgArray[7] = new Image();
+        imgArray[7].src = "./images/flags/armenia-flag-medium.png";
+        imgArray[8] = new Image();
+        imgArray[8].src = "./images/flags/australia-flag-medium.png";
+        imgArray[9] = new Image();
+        imgArray[9].src = "./images/flags/austria-flag-medium.png";
+        imgArray[10] = new Image();
+        imgArray[10].src = "./images/flags/azerbaijan-flag-medium.png";
+        imgArray[11] = new Image();
+        imgArray[11].src = "./images/flags/bahamas-flag-medium.png";
+        imgArray[12] = new Image();
+        imgArray[12].src = "./images/flags/bahrain-flag-medium.png";
+        imgArray[13] = new Image();
+        imgArray[13].src = "./images/flags/bangladesh-flag-medium.png";
+        imgArray[14] = new Image();
+        imgArray[14].src = "./images/flags/barbados-flag-medium.png";
+        imgArray[15] = new Image();
+        imgArray[15].src = "./images/flags/belarus-flag-medium.png";
+        imgArray[16] = new Image();
+        imgArray[16].src = "./images/flags/belgium-flag-medium.png";
+        imgArray[17] = new Image();
+        imgArray[17].src = "./images/flags/belize-flag-medium.png";
+        imgArray[18] = new Image();
+        imgArray[18].src = "./images/flags/benin-flag-medium.png";
+        imgArray[19] = new Image();
+        imgArray[19].src = "./images/flags/bhutan-flag-medium.png";
+        imgArray[20] = new Image();
+        imgArray[20].src = "./images/flags/bolivia-flag-medium.png";
+        imgArray[21] = new Image();
+        imgArray[21].src = "./images/flags/bosnia-and-herzegovina-flag-medium.png";
+        imgArray[22] = new Image();
+        imgArray[22].src = "./images/flags/botswana-flag-medium.png";
+        imgArray[23] = new Image();
+        imgArray[23].src = "./images/flags/brazil-flag-medium.png";
+        imgArray[24] = new Image();
+        imgArray[24].src = "./images/flags/brunei-flag-medium.png";
+        imgArray[25] = new Image();
+        imgArray[25].src = "./images/flags/bulgaria-flag-medium.png";
+        imgArray[26] = new Image();
+        imgArray[26].src = "./images/flags/burkina-faso-flag-medium.png";
+        imgArray[27] = new Image();
+        imgArray[27].src = "./images/flags/burundi-flag-medium.png";
+        imgArray[28] = new Image();
+        imgArray[28].src = "./images/flags/cambodia-flag-medium.png";
+        imgArray[29] = new Image();
+        imgArray[29].src = "./images/flags/cameroon-flag-medium.png";
+        imgArray[30] = new Image();
+        imgArray[30].src = "./images/flags/canada-flag-medium.png";
+        imgArray[31] = new Image();
+        imgArray[31].src = "./images/flags/cape-verde-flag-medium.png";
+        imgArray[32] = new Image();
+        imgArray[32].src = "./images/flags/central-african-republic-flag-medium.png";
+        imgArray[33] = new Image();
+        imgArray[33].src = "./images/flags/chad-flag-medium.png";
+        imgArray[34] = new Image();
+        imgArray[34].src = "./images/flags/chile-flag-medium.png";
+        imgArray[35] = new Image();
+        imgArray[35].src = "./images/flags/china-flag-medium.png";
+        imgArray[36] = new Image();
+        imgArray[36].src = "./images/flags/colombia-flag-medium.png";
+        imgArray[37] = new Image();
+        imgArray[37].src = "./images/flags/comoros-flag-medium.png";
+        imgArray[38] = new Image();
+        imgArray[38].src = "./images/flags/congo-democratic-republic-of-the-flag-medium.png";
+        imgArray[39] = new Image();
+        imgArray[39].src = "./images/flags/congo-republic-of-the-flag-medium.png";
+        imgArray[40] = new Image();
+        imgArray[40].src = "./images/flags/costa-rica-flag-medium.png";
+        imgArray[41] = new Image();
+        imgArray[41].src = "./images/flags/cote-d-ivoire-flag-medium.png";
+        imgArray[42] = new Image();
+        imgArray[42].src = "./images/flags/croatia-flag-medium.png";
+        imgArray[43] = new Image();
+        imgArray[43].src = "./images/flags/cuba-flag-medium.png";
+        imgArray[44] = new Image();
+        imgArray[44].src = "./images/flags/cyprus-flag-medium.png";
+        imgArray[45] = new Image();
+        imgArray[45].src = "./images/flags/czech-republic-flag-medium.png";
+        imgArray[46] = new Image();
+        imgArray[46].src = "./images/flags/denmark-flag-medium.png";
+        imgArray[47] = new Image();
+        imgArray[47].src = "./images/flags/djibouti-flag-medium.png";
+        imgArray[48] = new Image();
+        imgArray[48].src = "./images/flags/dominica-flag-medium.png";
+        imgArray[49] = new Image();
+        imgArray[49].src = "./images/flags/dominican-republic-flag-medium.png";
+        imgArray[50] = new Image();
+        imgArray[50].src = "./images/flags/east-timor-flag-medium.png";
+        imgArray[51] = new Image();
+        imgArray[51].src = "./images/flags/ecuador-flag-medium.png";
+        imgArray[52] = new Image();
+        imgArray[52].src = "./images/flags/egypt-flag-medium.png";
+        imgArray[53] = new Image();
+        imgArray[53].src = "./images/flags/el-salvador-flag-medium.png";
+        imgArray[54] = new Image();
+        imgArray[54].src = "./images/flags/equatorial-guinea-flag-medium.png";
+        imgArray[55] = new Image();
+        imgArray[55].src = "./images/flags/eritrea-flag-medium.png";
+        imgArray[56] = new Image();
+        imgArray[56].src = "./images/flags/estonia-flag-medium.png";
+        imgArray[57] = new Image();
+        imgArray[57].src = "./images/flags/ethiopia-flag-medium.png";
+        imgArray[58] = new Image();
+        imgArray[58].src = "./images/flags/fiji-flag-medium.png";
+        imgArray[59] = new Image();
+        imgArray[59].src = "./images/flags/finland-flag-medium.png";
+        imgArray[60] = new Image();
+        imgArray[60].src = "./images/flags/france-flag-medium.png";
+        imgArray[61] = new Image();
+        imgArray[61].src = "./images/flags/gabon-flag-medium.png";
+        imgArray[62] = new Image();
+        imgArray[62].src = "./images/flags/gambia-flag-medium.png";
+        imgArray[63] = new Image();
+        imgArray[63].src = "./images/flags/georgia-flag-medium.png";
+        imgArray[64] = new Image();
+        imgArray[64].src = "./images/flags/germany-flag-medium.png";
+        imgArray[65] = new Image();
+        imgArray[65].src = "./images/flags/ghana-flag-medium.png";
+        imgArray[66] = new Image();
+        imgArray[66].src = "./images/flags/greece-flag-medium.png";
+        imgArray[67] = new Image();
+        imgArray[67].src = "./images/flags/grenada-flag-medium.png";
+        imgArray[68] = new Image();
+        imgArray[68].src = "./images/flags/guatemala-flag-medium.png";
+        imgArray[69] = new Image();
+        imgArray[69].src = "./images/flags/guinea-bissau-flag-medium.png";
+        imgArray[70] = new Image();
+        imgArray[70].src = "./images/flags/guinea-flag-medium.png";
+        imgArray[71] = new Image();
+        imgArray[71].src = "./images/flags/guyana-flag-medium.png";
+        imgArray[72] = new Image();
+        imgArray[72].src = "./images/flags/haiti-flag-medium.png";
+        imgArray[73] = new Image();
+        imgArray[73].src = "./images/flags/honduras-flag-medium.png";
+        imgArray[74] = new Image();
+        imgArray[74].src = "./images/flags/hungary-flag-medium.png";
+        imgArray[75] = new Image();
+        imgArray[75].src = "./images/flags/iceland-flag-medium.png";
+        imgArray[76] = new Image();
+        imgArray[76].src = "./images/flags/india-flag-medium.png";
+        imgArray[77] = new Image();
+        imgArray[77].src = "./images/flags/indonesia-flag-medium.png";
+        imgArray[78] = new Image();
+        imgArray[78].src = "./images/flags/iran-flag-medium.png";
+        imgArray[79] = new Image();
+        imgArray[79].src = "./images/flags/iraq-flag-medium.png";
+        imgArray[80] = new Image();
+        imgArray[80].src = "./images/flags/ireland-flag-medium.png";
+        imgArray[81] = new Image();
+        imgArray[81].src = "./images/flags/israel-flag-medium.png";
+        imgArray[82] = new Image();
+        imgArray[82].src = "./images/flags/italy-flag-medium.png";
+        imgArray[83] = new Image();
+        imgArray[83].src = "./images/flags/jamaica-flag-medium.png";
+        imgArray[84] = new Image();
+        imgArray[84].src = "./images/flags/japan-flag-medium.png";
+        imgArray[85] = new Image();
+        imgArray[85].src = "./images/flags/jordan-flag-medium.png";
+        imgArray[86] = new Image();
+        imgArray[86].src = "./images/flags/kazakhstan-flag-medium.png";
+        imgArray[87] = new Image();
+        imgArray[87].src = "./images/flags/kenya-flag-medium.png";
+        imgArray[88] = new Image();
+        imgArray[88].src = "./images/flags/kiribati-flag-medium.png";
+        imgArray[89] = new Image();
+        imgArray[89].src = "./images/flags/kosovo-flag-medium.png";
+        imgArray[90] = new Image();
+        imgArray[90].src = "./images/flags/kuwait-flag-medium.png";
+        imgArray[91] = new Image();
+        imgArray[91].src = "./images/flags/kyrgyzstan-flag-medium.png";
+        imgArray[92] = new Image();
+        imgArray[92].src = "./images/flags/laos-flag-medium.png";
+        imgArray[93] = new Image();
+        imgArray[93].src = "./images/flags/latvia-flag-medium.png";
+        imgArray[94] = new Image();
+        imgArray[94].src = "./images/flags/lebanon-flag-medium.png";
+        imgArray[95] = new Image();
+        imgArray[95].src = "./images/flags/lesotho-flag-medium.png";
+        imgArray[96] = new Image();
+        imgArray[96].src = "./images/flags/liberia-flag-medium.png";
+        imgArray[97] = new Image();
+        imgArray[97].src = "./images/flags/libya-flag-medium.png";
+        imgArray[98] = new Image();
+        imgArray[98].src = "./images/flags/liechtenstein-flag-medium.png";
+        imgArray[99] = new Image();
+        imgArray[99].src = "./images/flags/lithuania-flag-medium.png";
+        imgArray[100] = new Image();
+        imgArray[100].src = "./images/flags/luxembourg-flag-medium.png";
+        imgArray[101] = new Image();
+        imgArray[101].src = "./images/flags/macedonia-flag-medium.png";
+        imgArray[102] = new Image();
+        imgArray[102].src = "./images/flags/madagascar-flag-medium.png";
+        imgArray[103] = new Image();
+        imgArray[103].src = "./images/flags/malawi-flag-medium.png";
+        imgArray[104] = new Image();
+        imgArray[104].src = "./images/flags/malaysia-flag-medium.png";
+        imgArray[105] = new Image();
+        imgArray[105].src = "./images/flags/maldives-flag-medium.png";
+        imgArray[106] = new Image();
+        imgArray[106].src = "./images/flags/mali-flag-medium.png";
+        imgArray[107] = new Image();
+        imgArray[107].src = "./images/flags/malta-flag-medium.png";
+        imgArray[108] = new Image();
+        imgArray[108].src = "./images/flags/marshall-islands-flag-medium.png";
+        imgArray[109] = new Image();
+        imgArray[109].src = "./images/flags/mauritania-flag-medium.png";
+        imgArray[110] = new Image();
+        imgArray[110].src = "./images/flags/mauritius-flag-medium.png";
+        imgArray[111] = new Image();
+        imgArray[111].src = "./images/flags/mexico-flag-medium.png";
+        imgArray[112] = new Image();
+        imgArray[112].src = "./images/flags/micronesia-flag-medium.png";
+        imgArray[113] = new Image();
+        imgArray[113].src = "./images/flags/moldova-flag-medium.png";
+        imgArray[114] = new Image();
+        imgArray[114].src = "./images/flags/monaco-flag-medium.png";
+        imgArray[115] = new Image();
+        imgArray[115].src = "./images/flags/mongolia-flag-medium.png";
+        imgArray[116] = new Image();
+        imgArray[116].src = "./images/flags/montenegro-flag-medium.png";
+        imgArray[117] = new Image();
+        imgArray[117].src = "./images/flags/morocco-flag-medium.png";
+        imgArray[118] = new Image();
+        imgArray[118].src = "./images/flags/mozambique-flag-medium.png";
+        imgArray[119] = new Image();
+        imgArray[119].src = "./images/flags/myanmar-flag-medium.png";
+        imgArray[120] = new Image();
+        imgArray[120].src = "./images/flags/namibia-flag-medium.png";
+        imgArray[121] = new Image();
+        imgArray[121].src = "./images/flags/nauru-flag-medium.png";
+        imgArray[122] = new Image();
+        imgArray[122].src = "./images/flags/nepal-flag-medium.png";
+        imgArray[123] = new Image();
+        imgArray[123].src = "./images/flags/netherlands-flag-medium.png";
+        imgArray[124] = new Image();
+        imgArray[124].src = "./images/flags/new-zealand-flag-medium.png";
+        imgArray[125] = new Image();
+        imgArray[125].src = "./images/flags/nicaragua-flag-medium.png";
+        imgArray[126] = new Image();
+        imgArray[126].src = "./images/flags/niger-flag-medium.png";
+        imgArray[127] = new Image();
+        imgArray[127].src = "./images/flags/nigeria-flag-medium.png";
+        imgArray[128] = new Image();
+        imgArray[128].src = "./images/flags/niue-flag-medium.png";
+        imgArray[129] = new Image();
+        imgArray[129].src = "./images/flags/north-korea-flag-medium.png";
+        imgArray[130] = new Image();
+        imgArray[130].src = "./images/flags/norway-flag-medium.png";
+        imgArray[131] = new Image();
+        imgArray[131].src = "./images/flags/oman-flag-medium.png";
+        imgArray[132] = new Image();
+        imgArray[132].src = "./images/flags/pakistan-flag-medium.png";
+        imgArray[133] = new Image();
+        imgArray[133].src = "./images/flags/palau-flag-medium.png";
+        imgArray[134] = new Image();
+        imgArray[134].src = "./images/flags/panama-flag-medium.png";
+        imgArray[135] = new Image();
+        imgArray[135].src = "./images/flags/papua-new-guinea-flag-medium.png";
+        imgArray[136] = new Image();
+        imgArray[136].src = "./images/flags/paraguay-flag-medium.png";
+        imgArray[137] = new Image();
+        imgArray[137].src = "./images/flags/peru-flag-medium.png";
+        imgArray[138] = new Image();
+        imgArray[138].src = "./images/flags/philippines-flag-medium.png";
+        imgArray[139] = new Image();
+        imgArray[139].src = "./images/flags/poland-flag-medium.png";
+        imgArray[140] = new Image();
+        imgArray[140].src = "./images/flags/portugal-flag-medium.png";
+        imgArray[141] = new Image();
+        imgArray[141].src = "./images/flags/qatar-flag-medium.png";
+        imgArray[142] = new Image();
+        imgArray[142].src = "./images/flags/romania-flag-medium.png";
+        imgArray[143] = new Image();
+        imgArray[143].src = "./images/flags/russia-flag-medium.png";
+        imgArray[144] = new Image();
+        imgArray[144].src = "./images/flags/rwanda-flag-medium.png";
+        imgArray[145] = new Image();
+        imgArray[145].src = "./images/flags/saint-kitts-and-nevis-flag-medium.png";
+        imgArray[146] = new Image();
+        imgArray[146].src = "./images/flags/saint-lucia-flag-medium.png";
+        imgArray[147] = new Image();
+        imgArray[147].src = "./images/flags/saint-vincent-and-the-grenadines-flag-medium.png";
+        imgArray[148] = new Image();
+        imgArray[148].src = "./images/flags/samoa-flag-medium.png";
+        imgArray[149] = new Image();
+        imgArray[149].src = "./images/flags/san-marino-flag-medium.png";
+        imgArray[150] = new Image();
+        imgArray[150].src = "./images/flags/sao-tome-and-principe-flag-medium.png";
+        imgArray[151] = new Image();
+        imgArray[151].src = "./images/flags/saudi-arabia-flag-medium.png";
+        imgArray[152] = new Image();
+        imgArray[152].src = "./images/flags/senegal-flag-medium.png";
+        imgArray[153] = new Image();
+        imgArray[153].src = "./images/flags/serbia-flag-medium.png";
+        imgArray[154] = new Image();
+        imgArray[154].src = "./images/flags/seychelles-flag-medium.png";
+        imgArray[155] = new Image();
+        imgArray[155].src = "./images/flags/sierra-leone-flag-medium.png";
+        imgArray[156] = new Image();
+        imgArray[156].src = "./images/flags/slovakia-flag-medium.png";
+        imgArray[157] = new Image();
+        imgArray[157].src = "./images/flags/slovenia-flag-medium.png";
+        imgArray[158] = new Image();
+        imgArray[158].src = "./images/flags/solomon-islands-flag-medium.png";
+        imgArray[159] = new Image();
+        imgArray[159].src = "./images/flags/somalia-flag-medium.png";
+        imgArray[160] = new Image();
+        imgArray[160].src = "./images/flags/south-africa-flag-medium.png";
+        imgArray[161] = new Image();
+        imgArray[161].src = "./images/flags/south-korea-flag-medium.png";
+        imgArray[162] = new Image();
+        imgArray[162].src = "./images/flags/south-sudan-flag-medium.png";
+        imgArray[163] = new Image();
+        imgArray[163].src = "./images/flags/spain-flag-medium.png";
+        imgArray[164] = new Image();
+        imgArray[164].src = "./images/flags/sri-lanka-flag-medium.png";
+        imgArray[165] = new Image();
+        imgArray[165].src = "./images/flags/sudan-flag-medium.png";
+        imgArray[166] = new Image();
+        imgArray[166].src = "./images/flags/suriname-flag-medium.png";
+        imgArray[167] = new Image();
+        imgArray[167].src = "./images/flags/swaziland-flag-medium.png";
+        imgArray[168] = new Image();
+        imgArray[168].src = "./images/flags/sweden-flag-medium.png";
+        imgArray[169] = new Image();
+        imgArray[169].src = "./images/flags/switzerland-flag-medium.png";
+        imgArray[170] = new Image();
+        imgArray[170].src = "./images/flags/syria-flag-medium.png";
+        imgArray[171] = new Image();
+        imgArray[171].src = "./images/flags/taiwan-flag-medium.png";
+        imgArray[172] = new Image();
+        imgArray[172].src = "./images/flags/tajikistan-flag-medium.png";
+        imgArray[173] = new Image();
+        imgArray[173].src = "./images/flags/tanzania-flag-medium.png";
+        imgArray[174] = new Image();
+        imgArray[174].src = "./images/flags/thailand-flag-medium.png";
+        imgArray[175] = new Image();
+        imgArray[175].src = "./images/flags/togo-flag-medium.png";
+        imgArray[176] = new Image();
+        imgArray[176].src = "./images/flags/tonga-flag-medium.png";
+        imgArray[177] = new Image();
+        imgArray[177].src = "./images/flags/trinidad-and-tobago-flag-medium.png";
+        imgArray[178] = new Image();
+        imgArray[178].src = "./images/flags/tunisia-flag-medium.png";
+        imgArray[179] = new Image();
+        imgArray[179].src = "./images/flags/turkey-flag-medium.png";
+        imgArray[180] = new Image();
+        imgArray[180].src = "./images/flags/turkmenistan-flag-medium.png";
+        imgArray[181] = new Image();
+        imgArray[181].src = "./images/flags/tuvalu-flag-medium.png";
+        imgArray[182] = new Image();
+        imgArray[182].src = "./images/flags/uganda-flag-medium.png";
+        imgArray[183] = new Image();
+        imgArray[183].src = "./images/flags/ukraine-flag-medium.png";
+        imgArray[184] = new Image();
+        imgArray[184].src = "./images/flags/united-arab-emirates-flag-medium.png";
+        imgArray[185] = new Image();
+        imgArray[185].src = "./images/flags/united-kingdom-flag-medium.png";
+        imgArray[186] = new Image();
+        imgArray[186].src = "./images/flags/united-states-of-america-flag-medium.png";
+        imgArray[187] = new Image();
+        imgArray[187].src = "./images/flags/uruguay-flag-medium.png";
+        imgArray[188] = new Image();
+        imgArray[188].src = "./images/flags/uzbekistan-flag-medium.png";
+        imgArray[189] = new Image();
+        imgArray[189].src = "./images/flags/vatican-city-flag-medium.png";
+        imgArray[190] = new Image();
+        imgArray[190].src = "./images/flags/venezuela-flag-medium.png";
+        imgArray[191] = new Image();
+        imgArray[191].src = "./images/flags/vietnam-flag-medium.png";
+        imgArray[192] = new Image();
+        imgArray[192].src = "./images/flags/yemen-flag-medium.png";
+        imgArray[193] = new Image();
+        imgArray[193].src = "./images/flags/zambia-flag-medium.png";
+        imgArray[194] = new Image();
+        imgArray[194].src = "./images/flags/zimbabwe-flag-medium.png";
+
+        function animateloop() {
+            dc.fillStyle = "rgba(0,0,0,0.05)"
+            dc.fillRect(0, 0, width, height);
+            //    dc.clearRect(0, 0, width, height);
+
+            switch (statemachine) {
+                case 0: // start the show
+                    star = [];
+                    for (var i = 0; i < 30; i++) {
+                        star[i] = {
+                            x: Math.random() * width,
+                            y: Math.random() * height,
+                            dy: Math.random() * 5,
+                            size: 0.2,
+                            dsize: 1 - 0.01 * Math.random(),
+                            maxscale: 0.1,
+                            targetangle: 0.5,
+                            dangle: Math.random() * 0.03,
+                            mangle: Math.random() * 3.1457,
+                            img: imgArray[Math.floor(Math.random() * imgArray.length)],
+                        };
+                    }
+                    statemachine = 1;
+                    break;
+                case 1: // increase size
+                    flag.scale *= 1.01;
+                    if (flag.scale > flag.maxscale) {
+                        statemachine = 1;
+                    }
+                    break;
+                default:
+                //                console.log("statemachine=" + statemachine);
+            }
+
+            for (var i = 0; i < star.length; i++) {
+                dc.save();
+                dc.translate(star[i].x, star[i].y); // center of window
+                var scale = star[i].size;
+                dc.scale(scale, scale);
+                dc.rotate(star[i].mangle);
+                dc.translate(-star[i].img.width / 2, - star[i].img.height / 2);
+                dc.drawImage(star[i].img, 0, 0);
+                dc.restore();
+                star[i].y += star[i].dy;
+                star[i].mangle += star[i].dangle;
+                star[i].size *= star[i].dsize;
+                if ((star[i].y > height + 80.0) || (star[i].size < 0.005)) {
+                    star[i] = {
+                        x: Math.random() * width,
+                        y: -200,
+                        dy: 1.5 + Math.random() * 8,
+                        size: 0.2,
+                        dsize: 1 - 0.01 * Math.random(),
+                        maxscale: 0.1,
+                        targetangle: 0.5,
+                        dangle: 0.1 * (Math.random() - 0.5),
+                        mangle: Math.random() * 3.1457,
+                        img: imgArray[Math.floor(Math.random() * imgArray.length)],
+                    };
+                }
+            }
+        }
+
+        /***********************************
+        // main - program starts here !!!!!!
+        ************************************/
+        const canvas = document.querySelector("canvas");
+        const width = canvas.width = window.innerWidth;
+        const height = canvas.height = window.innerHeight;
+        const dc = canvas.getContext("2d");
+        window.setInterval(animateloop, 1000 / 60);
+
+    </script>
+</body>
+
+</html>
